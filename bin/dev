@@ -1,0 +1,12 @@
+#!/bin/bash
+
+docker run \
+  --rm \
+  --name rebase-challenge \
+  --network rebase-network \
+  -w /app \
+  -v .:/app \
+  -p 3000:3000 \
+  ruby \
+  bash -c "bundle install && ruby server.rb"
+```
