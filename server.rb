@@ -1,18 +1,15 @@
 require 'sinatra'
 require 'rack/handler/puma'
 require 'csv'
+require 'pg'
 
 get '/tests' do
-  rows = CSV.read("./data/data.csv", col_sep: ';')
+  conn = PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres')
 
-  columns = rows.shift
+  result = conn.exec('SELECT * FROM tests;')
 
-  rows.map do |row|
-    row.each_with_object({}).with_index do |(cell, acc), idx|
-      column = columns[idx]
-      acc[column] = cell
-    end
-  end.to_json
+  content_type :json
+  result.map { |row| row.to_h }.to_json
 end
 
 get '/hello' do

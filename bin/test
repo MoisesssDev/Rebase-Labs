@@ -1,5 +1,9 @@
 #!/bin/bash
 
+docker network rm rebase-network
+
+docker network create rebase-network
+
 docker run \
     -d \
     --rm \

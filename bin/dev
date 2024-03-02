@@ -1,5 +1,19 @@
 #!/bin/bash
 
+docker network rm rebase-network
+
+docker network create rebase-network
+
+docker run \
+    -d \
+    --rm \
+    --name rebase-postgres \
+    --network rebase-network \
+    -e POSTGRES_DB=rebase-db \
+    -e POSTGRES_USER=rebase \
+    -e POSTGRES_PASSWORD=rebase \
+    postgres
+
 docker run \
   --rm \
   --name rebase-challenge \
@@ -8,4 +22,6 @@ docker run \
   -v .:/app \
   -p 3000:3000 \
   ruby \
-  bash -c "bundle install && ruby server.rb"
+  bash -c "bundle install && ruby lib/import_from_csv.rb && ruby server.rb"
+
+docker stop rebase-postgres
