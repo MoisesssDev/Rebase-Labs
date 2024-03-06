@@ -20,7 +20,7 @@ docker run \
   --network rebase-network \
   -w /app \
   -v .:/app \
-  ruby \
+  ruby:3.2.2 \
   bash -c "bundle install && ruby lib/import_from_csv.rb && bundle exec rspec"
 
 docker stop rebase-postgres

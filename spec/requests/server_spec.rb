@@ -1,12 +1,6 @@
 require 'spec_helper'
 
 describe 'Roda o servidor' do
-  include Rack::Test::Methods
-
-  def app
-    Sinatra::Application
-  end
-
   it 'e retorna hello world' do
     get '/hello'
     expect(last_response).to be_ok
@@ -40,7 +34,7 @@ describe 'Roda o servidor' do
 end
 
 
-describv 'Roda o servidor' do
+describe 'Roda o servidor' do
   include Rack::Test::Methods
 
   def app
