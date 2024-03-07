@@ -6,7 +6,6 @@ require 'pg'
 get '/tests' do
   conn = PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres')
 
-  # result = conn.exec('SELECT * FROM patients;')
   result = conn.exec('
     SELECT
       t.result_token, t.result_date, p.cpf, p.name, p.email, p.birthdate,
@@ -18,7 +17,6 @@ get '/tests' do
   ')
 
   content_type :json
-  # result.map { |row| row.to_h }.to_json
   format_response(result).to_json
 end
 
