@@ -26,8 +26,8 @@ def import_data(conn, csv_file)
 
   patient_cpf, doctor_crm = nil, nil
 
-  read_csv(csv_file).each do |row|
-    conn.transaction do
+  conn.transaction do
+    read_csv(csv_file).each do |row|
       patient_cpf = insert_patient(conn, row)
       doctor_crm = insert_doctor(conn, row)
       insert_test(conn, row, patient_cpf, doctor_crm)
