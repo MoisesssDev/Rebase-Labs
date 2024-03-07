@@ -1,39 +1,48 @@
 require 'csv'
 require 'benchmark'
 require 'pg'
+require_relative 'create_tables'
 
+def read_csv(csv_file)
+  CSV.read(csv_file, col_sep: ';', headers: true)
+end
 
-conn = PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres')
+def insert_patient(conn, row)
+  conn.exec_params("INSERT INTO patients VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING", row[0..6])
+  row[0]
+end
 
-time = Benchmark.realtime do
-  conn.transaction do
-    conn.exec("CREATE TABLE IF NOT EXISTS tests (
-                cpf VARCHAR(15),
-                nome_paciente VARCHAR(255),
-                email_paciente VARCHAR(255),
-                data_nascimento_paciente DATE,
-                endereco_rua_paciente VARCHAR(255),
-                cidade_paciente VARCHAR(255),
-                estado_paciente VARCHAR(255),
-                crm_medico VARCHAR(20),
-                crm_medico_estado VARCHAR(2),
-                nome_medico VARCHAR(255),
-                email_medico VARCHAR(255),
-                token_resultado_exame VARCHAR(10),
-                data_exame DATE,
-                tipo_exame VARCHAR(255),
-                limites_tipo_exame VARCHAR(255),
-                resultado_tipo_exame VARCHAR(255)
-              );")
-              
-    CSV.foreach("./data/data.csv", col_sep: ';', headers: true) do |row|
-      conn.exec_params("INSERT INTO tests VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)",
-                      row.fields)
+def insert_doctor(conn, row)
+  conn.exec_params("INSERT INTO doctors VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING", row[7..10])
+  row[7]
+end
+
+def insert_test(conn, row, patient_cpf, doctor_crm)
+  conn.exec_params("INSERT INTO tests VALUES ($1, $2, $3, $4, $5, $6, $7)", row[11..15].unshift(patient_cpf, doctor_crm))
+end
+
+def import_data(conn, csv_file)
+  create_tables(conn)
+
+  patient_cpf, doctor_crm = nil, nil
+
+  read_csv(csv_file).each do |row|
+    conn.transaction do
+      patient_cpf = insert_patient(conn, row)
+      doctor_crm = insert_doctor(conn, row)
+      insert_test(conn, row, patient_cpf, doctor_crm)
     end
   end
 end
 
+conn_params = { dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres' }
+csv_file = './data/data.csv'
+
+time = Benchmark.realtime do
+  conn = PG.connect(conn_params)
+  import_data(conn, csv_file)
+  conn.close
+end
+
 puts "Tempo de execução: #{time.round(2)} segundos"
 puts 'Importação concluída com sucesso!'
-
-conn.close
