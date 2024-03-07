@@ -16,6 +16,11 @@ get '/hello' do
   'Hello world!'
 end
 
+get '/' do
+  content_type 'text/html'
+  File.open(File.join('public', 'index.html'))
+end
+
 if ENV['APP_ENV'] != 'test'
   Rack::Handler::Puma.run(Sinatra::Application, Port: 3000, Host: '0.0.0.0')
 end

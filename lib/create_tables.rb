@@ -1,5 +1,3 @@
-require 'pg'
-
 def create_tables(conn)
   conn.exec('CREATE TABLE IF NOT EXISTS doctors  (
               crm VARCHAR(10) UNIQUE NOT NULL,
