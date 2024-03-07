@@ -47,5 +47,5 @@ time = Benchmark.realtime do
   conn.close
 end
 
-puts "Tempo de execução: #{time.round(2)} segundos"
 puts 'Importação concluída com sucesso!'
+puts "Tempo de execução: #{time.round(2)} segundos"
