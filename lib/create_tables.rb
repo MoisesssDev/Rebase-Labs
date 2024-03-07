@@ -1,4 +1,3 @@
-# create_tables.rb
 require 'pg'
 
 def create_tables(conn)

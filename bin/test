@@ -21,6 +21,6 @@ docker run \
   -w /app \
   -v .:/app \
   ruby:3.2.2 \
-  bash -c "bundle install && ruby lib/import_from_csv.rb && bundle exec rspec"
+  bash -c "bundle install && bundle exec rspec"
 
 docker stop rebase-postgres
