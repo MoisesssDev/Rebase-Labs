@@ -21,8 +21,8 @@ function generateTable(data) {
 
     var title = '<h2><img src="images/note.png" alt="exames"> Resultado dos exames</h2>';
     var search = '<input type="text" id="search" placeholder="Pesquisar por token...">';
-    var msg_welcome = '<p>&#128075; Olá, seja bem-vindo ao Rebase Labs</p>'
-    var nav_table = `${msg_welcome}${title}${search}`;
+    var msg_welcome = '<p>&#128075; Bem-vindo ao Rebase Labs!</p>'
+    var nav_table = `<div class="nav-table">${msg_welcome} <div class="nav-table-content">${title}${search}</div></div>`;
   
     var tableHeader = `
       <thead>
