@@ -1,5 +1,5 @@
 function fetchData(callback) {
-    var apiUrl = '/tests';
+    var apiUrl = '/api/v1/tests';
   
     fetch(apiUrl)
       .then(response => {
@@ -27,7 +27,7 @@ function fetchData(callback) {
         <td>${item.doctor.name}</td>
         <td>${item.result_token}</td>
         <td>${item.result_date}</td>
-        <td><a href="/tests/${item.result_token}" onclick="showDetails()">Detalhes</a></td>
+        <td><a href="api/v1/tests/${item.result_token}" onclick="showDetails()">Detalhes</a></td>
       </tr>
     `).join('');
   }

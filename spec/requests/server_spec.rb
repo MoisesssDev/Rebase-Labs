@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe 'Roda o servidor' do
 
-  context 'GET /tests/:token' do
+  context 'GET api/v1/tests/:token' do
     it 'e ver apenas um resultado com sucesso' do
-      get '/tests/IQCZ17'
+      get 'api/v1/tests/IQCZ17'
 
       expect(last_response).to be_ok
       expect(last_response.content_type).to eq('application/json')
@@ -40,9 +40,9 @@ describe 'Roda o servidor' do
     end
   end
 
-  context 'GET /tests' do
+  context 'GET api/v1/tests' do
     it 'e ver todos os resultados com sucesso' do
-      get '/tests'
+      get 'api/v1/tests'
 
       expect(last_response).to be_ok
       expect(last_response.content_type).to eq('application/json')

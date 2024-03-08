@@ -1,24 +1,10 @@
 require 'csv'
 require 'benchmark'
 require 'pg'
-require_relative 'create_tables'
+require_relative 'queries_SQL'
 
 def read_csv(csv_file)
   CSV.read(csv_file, col_sep: ';', headers: true)
-end
-
-def insert_patient(conn, row)
-  conn.exec_params("INSERT INTO patients VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING", row[0..6])
-  row[0]
-end
-
-def insert_doctor(conn, row)
-  conn.exec_params("INSERT INTO doctors VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING", row[7..10])
-  row[7]
-end
-
-def insert_test(conn, row, patient_cpf, doctor_crm)
-  conn.exec_params("INSERT INTO tests VALUES ($1, $2, $3, $4, $5, $6, $7)", row[11..15].unshift(patient_cpf, doctor_crm))
 end
 
 def import_data(conn, csv_file)

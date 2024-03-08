@@ -3,9 +3,9 @@ require 'rack/handler/puma'
 require 'csv'
 require 'pg'
 require_relative 'lib/format_response'
-require_relative 'lib/database_query'
+require_relative 'lib/queries_SQL'
 
-get '/tests' do
+get '/api/v1/tests' do
   result = find_all(PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres'))
 
   content_type :json
@@ -13,7 +13,7 @@ get '/tests' do
   format_response(result).to_json
 end
 
-get '/tests/:token' do
+get '/api/v1/tests/:token' do
   conn = PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres')
   result = find_by_token(conn, params[:token])
 
