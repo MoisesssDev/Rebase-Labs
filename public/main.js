@@ -18,6 +18,11 @@ function generateTable(data) {
     if (!data) {
       return '<p>Falha ao carregar dados</p>';
     }
+
+    var title = '<h2><img src="images/note.png" alt="exames"> Resultado dos exames</h2>';
+    var search = '<input type="text" id="search" placeholder="Pesquisar por token...">';
+    var msg_welcome = '<p>&#128075; Olá, seja bem-vindo ao Rebase Labs</p>'
+    var nav_table = `${msg_welcome}${title}${search}`;
   
     var tableHeader = `
       <thead>
@@ -57,7 +62,7 @@ function generateTable(data) {
 
     tableBody += '</tbody>';
 
-    var table = `<table>${tableHeader}${tableBody}</table>`;
+    var table = `${nav_table}<table>${tableHeader}${tableBody}</table>`;
     return table;
 }
   

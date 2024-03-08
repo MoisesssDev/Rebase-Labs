@@ -22,6 +22,11 @@ get '/' do
   File.open(File.join('public', 'index.html'))
 end
 
+get '/styles.css' do
+  content_type 'text/css'
+  File.open(File.join('public', 'styles.css'))
+end
+
 if ENV['APP_ENV'] != 'test'
   Rack::Handler::Puma.run(Sinatra::Application, Port: 3000, Host: '0.0.0.0')
 end
