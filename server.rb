@@ -9,6 +9,7 @@ get '/tests' do
   result = database_query(PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres'))
 
   content_type :json
+  response.headers['Access-Control-Allow-Origin'] = '*'
   format_response(result).to_json
 end
 
