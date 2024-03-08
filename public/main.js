@@ -18,15 +18,15 @@ function fetchData(callback) {
     // Função para gerar o corpo da tabela com base nos dados fornecidos
     return data.map(item => `
       <tr>
-        <td>${item.cpf || 'N/A'}</td>
-        <td>${item.name || 'N/A'}</td>
-        <td>${item.email || 'N/A'}</td>
-        <td>${item.birthday || 'N/A'}</td>
-        <td>${item.doctor ? item.doctor.crm || 'N/A' : 'N/A'}</td>
-        <td>${item.doctor ? item.doctor.crm_state || 'N/A' : 'N/A'}</td>
-        <td>${item.doctor ? item.doctor.name || 'N/A' : 'N/A'}</td>
-        <td>${item.result_token || 'N/A'}</td>
-        <td>${item.result_date || 'N/A'}</td>
+        <td>${item.cpf}</td>
+        <td>${item.name}</td>
+        <td>${item.email}</td>
+        <td>${item.birthday}</td>
+        <td>${item.doctor.crm}</td>
+        <td>${item.doctor.crm_state}</td>
+        <td>${item.doctor.name}</td>
+        <td>${item.result_token}</td>
+        <td>${item.result_date}</td>
         <td><a href="#" onclick="showDetails()">Detalhes</a></td>
       </tr>
     `).join('');
