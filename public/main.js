@@ -63,7 +63,34 @@ function generateTable(data) {
     tableBody += '</tbody>';
 
     var table = `${nav_table}<table>${tableHeader}${tableBody}</table>`;
-    return table;
+
+    // Adicionar o ouvinte de eventos ao input de pesquisa
+    var tableContainer = document.getElementById('table-container');
+    tableContainer.innerHTML = table;
+
+    var searchInput = document.getElementById('search');
+    searchInput.addEventListener('input', function () {
+        filterTable(searchInput.value);
+    });
+
+    // return table;
+}
+
+function filterTable(filterText) {
+    // Obtém a referência para a tabela
+    var tabelaExames = document.querySelector('table');
+  
+    // Obtém todas as linhas da tabela, excluindo a linha de cabeçalho
+    var linhas = tabelaExames.querySelectorAll('tbody tr');
+  
+    // Itera sobre as linhas e mostra ou oculta com base no filtro
+    linhas.forEach(function (linha) {
+      var textoLinha = linha.innerText.toLowerCase();
+      var filtroLowerCase = filterText.toLowerCase();
+  
+      // Se o texto da linha contiver o texto do filtro, mostra a linha, caso contrário, oculta
+      linha.style.display = textoLinha.includes(filtroLowerCase) ? '' : 'none';
+    });
 }
   
 function showDetails() {
@@ -73,7 +100,8 @@ function showDetails() {
 document.addEventListener('DOMContentLoaded', function () {
     fetchData(function (data) {
         console.log(data);
-        var tableHTML = generateTable(data);
-        document.getElementById('table-container').innerHTML = tableHTML;
+        // var tableHTML = generateTable(data);
+        // document.getElementById('table-container').innerHTML = tableHTML;
+        generateTable(data);
     });
 });
