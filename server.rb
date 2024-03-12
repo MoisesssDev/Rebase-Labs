@@ -27,9 +27,9 @@ get '/' do
   File.open(File.join('public', 'index.html'))
 end
 
-get '/styles.css' do
-  content_type 'text/css'
-  File.open(File.join('public', 'styles.css'))
+get '/:token' do
+  content_type 'text/html'
+  File.open(File.join('public', 'show.html'))
 end
 
 if ENV['APP_ENV'] != 'test'

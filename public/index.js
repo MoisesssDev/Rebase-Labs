@@ -27,7 +27,7 @@ function fetchData(callback) {
         <td>${item.doctor.name}</td>
         <td>${item.result_token}</td>
         <td>${item.result_date}</td>
-        <td><a href="api/v1/tests/${item.result_token}" onclick="showDetails()">Detalhes</a></td>
+        <td><a href="/${item.result_token}">Detalhes</a></td>
       </tr>
     `).join('');
   }
@@ -35,12 +35,12 @@ function fetchData(callback) {
   function renderTable(data) {
     // Função para renderizar a tabela no DOM
     if (!data) {
-      document.getElementById('table-container').innerHTML = '<p>Falha ao carregar dados</p>';
+      document.getElementById('table-container').innerHTML = '<p>Não existe resultados de exames.</p>';
       return;
     }
   
     var title = '<h2><img src="images/note.png" alt="exames"> Resultado dos exames</h2>';
-    var search = '<input type="text" id="search" placeholder="Pesquisar por token...">';
+    var search = '<input type="text" id="search" placeholder="Pesquisar...">';
     var msgWelcome = '<p>&#128075; Bem-vindo ao Rebase Labs! Consulte abaixo os resultados dos exames.</p>';
     var navTable = `<div class="nav-table">${msgWelcome}<div class="nav-table-content">${title}${search}</div></div>`;
   
