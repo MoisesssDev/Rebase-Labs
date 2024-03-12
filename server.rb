@@ -24,12 +24,12 @@ end
 
 get '/' do
   content_type 'text/html'
-  File.open(File.join('public', 'index.html'))
+  File.open(File.join('public/views', 'index.html'))
 end
 
 get '/:token' do
   content_type 'text/html'
-  File.open(File.join('public', 'show.html'))
+  File.open(File.join('public/views', 'show.html'))
 end
 
 if ENV['APP_ENV'] != 'test'
