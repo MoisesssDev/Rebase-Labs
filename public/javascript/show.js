@@ -82,7 +82,8 @@ function generateDetailsTest(data) {
 function renderTest(data) {
   // Função para renderizar a tabela no DOM
   var title = `<h2><img src="images/note.png" alt="exames"> Resultado do exame:</h2>`;
-  var navTest = `<div class="nav-table"><div class="nav-table-content">${title}</div></div>`;
+  var link_back = `<a href="/"><img src="images/left.png">Voltar</a>`;
+  var navTest = `<div class="nav-table">${link_back}<div class="nav-table-content">${title}</div></div>`;
   var details = generateDetailsTest(data);
   var table = createTable(data);
 

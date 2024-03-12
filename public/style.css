@@ -26,6 +26,19 @@ nav a img{
   border-bottom: 1px solid #BBB6B6 ;
 }
 
+.nav-table a img {
+  width: 22px;
+  margin-right: 4px;
+}
+
+.nav-table a {
+  font-size: 14px;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  color: #3A56DC;
+}
+
 .nav-table p {
   color: #0C1E33;
   font-size: 18px;
