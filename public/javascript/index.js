@@ -93,13 +93,13 @@ function submitForm() {
   })
   .then(response => {
     if (response.ok) {
-      showMessage('O arquivo CSV está sendo importado... Por favor, aguarde alguns instantes e atualize a página para ver os resultados');
+      showMessage('(*) O arquivo CSV está sendo importado... Por favor, aguarde alguns instantes e atualize a página para ver os resultados');
     } else {
-      showMessage('Ocorreu um erro ao importar o arquivo CSV. Por favor, tente novamente.');
+      showMessage('(*) Ocorreu um erro ao importar o arquivo CSV. Por favor, tente novamente.');
     }
   })
   .catch(error => {
-    showMessage('Ocorreu um erro ao importar o arquivo CSV. Por favor, tente novamente.');
+    showMessage('(*) Ocorreu um erro ao importar o arquivo CSV. Por favor, tente novamente.');
     console.error('Erro:', error);
   });
 }
