@@ -16,7 +16,24 @@
     </a>
   </nav>
 
-  <div id="table-container"></div>
+  <div class="nav-table">
+    <p>&#128075; Bem-vindo ao Rebase Labs! Consulte abaixo os resultados dos exames.</p>
+    <div class="nav-table-content">
+      <h2><img src="images/note.png" alt="exames"> Resultado dos exames</h2>
+      <input type="text" id="search" placeholder="Pesquisar...">
+    </div>
+
+    <form id="csv-form" enctype="multipart/form-data">
+      <input type="file" id="file-input" name="file">
+      <button type="button" onclick="submitForm()">Importar Dados</button>
+    </form>
+    <div id="message-container"></div>
+    
+  </div>
+
+  <div id="table-container">
+    
+  </div>
 
   <script src="javascript/index.js"></script>
 </body>

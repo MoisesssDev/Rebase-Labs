@@ -4,13 +4,22 @@ require 'csv'
 require 'pg'
 require_relative 'lib/format_response'
 require_relative 'lib/queries_SQL'
+require_relative 'jobs/import_csv_job'
 
 get '/api/v1/tests' do
-  result = find_all(PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres'))
+  begin 
+    conn = PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres')
+    result = find_all(conn)
 
-  content_type :json
-  response.headers['Access-Control-Allow-Origin'] = '*'
-  format_response(result).to_json
+    content_type :json
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    format_response(result).to_json
+  rescue PG::Error => e
+    content_type :json
+    [].to_json
+  ensure
+    conn.close if conn
+  end
 end
 
 get '/api/v1/tests/:token' do
@@ -20,6 +29,27 @@ get '/api/v1/tests/:token' do
   content_type :json
   response.headers['Access-Control-Allow-Origin'] = '*'
   format_response(result).to_json
+end
+
+post '/api/v1/import_csv' do
+  begin
+    csv_file = params[:file][:tempfile]
+    ImportCsvJob.perform(csv_file)
+
+    status 202
+    content_type :json
+    { message: "O arquivo CSV está sendo processado. Por favor, aguarde." }.to_json
+  rescue PG::Error => e
+    status 500
+    content_type :json
+    { error: "Erro no banco de dados: #{e.message}" }.to_json
+  rescue StandardError => e
+    status 500
+    content_type :json
+    { error: "Ocorreu um erro durante o processamento do arquivo CSV: #{e.message}" }.to_json
+  end
+
+  redirect '/'
 end
 
 get '/' do

@@ -9,13 +9,9 @@ function fetchData(callback) {
         return response.json();
       })
       .then(data => callback(data))
-      .catch(error => {
-        console.error('Erro:', error);
-      });
 }
   
 function generateTableBody(data) {
-  // Função para gerar o corpo da tabela com base nos dados fornecidos
   return data.map(item => `
     <tr>
       <td>${item.cpf}</td>
@@ -33,16 +29,12 @@ function generateTableBody(data) {
 }
   
 function renderTable(data) {
-  // Função para renderizar a tabela no DOM
-  if (!data) {
-    document.getElementById('table-container').innerHTML = '<p>Não existe resultados de exames.</p>';
+  if (data.length == 0) {
+    msg_error = '<p style="text-align: center">Nenhum exame foi importado para o Rebase Labs.</p>';
+    document.getElementById('table-container').innerHTML = msg_error
+    console.log('Não existe resultados de exames.');
     return;
   }
-
-  var title = '<h2><img src="images/note.png" alt="exames"> Resultado dos exames</h2>';
-  var search = '<input type="text" id="search" placeholder="Pesquisar...">';
-  var msgWelcome = '<p>&#128075; Bem-vindo ao Rebase Labs! Consulte abaixo os resultados dos exames.</p>';
-  var navTable = `<div class="nav-table">${msgWelcome}<div class="nav-table-content">${title}${search}</div></div>`;
 
   var tableHeader = `
     <thead>
@@ -62,9 +54,8 @@ function renderTable(data) {
   `;
 
   var tableBody = `<tbody>${generateTableBody(data)}</tbody>`;
-  var table = `${navTable}<table>${tableHeader}${tableBody}</table>`;
+  var table = `<table>${tableHeader}${tableBody}</table>`;
 
-  // Adicionar o ouvinte de eventos ao input de pesquisa
   var tableContainer = document.getElementById('table-container');
   tableContainer.innerHTML = table;
 
@@ -92,4 +83,29 @@ document.addEventListener('DOMContentLoaded', function () {
     renderTable(data);
   });
 });
+
+function submitForm() {
+  const formData = new FormData(document.getElementById('csv-form'));
+
+  fetch('/api/v1/import_csv', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if (response.ok) {
+      showMessage('O arquivo CSV está sendo importado... Por favor, aguarde alguns instantes e atualize a página para ver os resultados');
+    } else {
+      showMessage('Ocorreu um erro ao importar o arquivo CSV. Por favor, tente novamente.');
+    }
+  })
+  .catch(error => {
+    showMessage('Ocorreu um erro ao importar o arquivo CSV. Por favor, tente novamente.');
+    console.error('Erro:', error);
+  });
+}
+
+function showMessage(message) {
+  const messageContainer = document.getElementById('message-container');
+  messageContainer.innerHTML = `<p>${message}</p>`;
+}
   
