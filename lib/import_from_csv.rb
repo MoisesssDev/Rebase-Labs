@@ -8,9 +8,7 @@ def read_csv(csv_file)
 end
 
 def import_data(conn, csv_file)
-  puts 'Iniciando criação de tabelas...'
   create_tables(conn)
-  puts 'Tabelas criadas com sucesso!'
 
   patient_cpf, doctor_crm = nil, nil
 

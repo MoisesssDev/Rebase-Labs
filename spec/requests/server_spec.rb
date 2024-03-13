@@ -2,8 +2,31 @@ require 'spec_helper'
 
 describe 'Roda o servidor' do
 
+  before(:all) do
+    @conn = PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres')
+    create_tables(@conn)
+  end
+
+  after(:all) do
+    @conn.close
+  end
+
   context 'GET api/v1/tests/:token' do
+    it 'e o token não existe' do
+      import_data(@conn, 'spec/support/assets/csv/data_sucess.csv')
+
+      get 'api/v1/tests/123'
+
+      expect(last_response).to be_ok
+      expect(last_response.content_type).to eq('application/json')
+      expect(last_response.body).to eq('[]')
+      drop_tables(@conn)
+    end
+
+
     it 'e ver apenas um resultado com sucesso' do
+      import_data(@conn, 'spec/support/assets/csv/data_sucess.csv')
+
       get 'api/v1/tests/IQCZ17'
 
       expect(last_response).to be_ok
@@ -37,11 +60,22 @@ describe 'Roda o servidor' do
                         ]
                       }]
       expect(last_response.body).to eq(expected_json.to_json)
+      drop_tables(@conn)
     end
   end
 
   context 'GET api/v1/tests' do
+    it 'e não ver nenhum resultado' do
+      get 'api/v1/tests'
+      
+      expect(last_response).to be_ok
+      expect(last_response.content_type).to eq('application/json')
+      expect(last_response.body).to eq('[]')
+    end
+
     it 'e ver todos os resultados com sucesso' do
+      import_data(@conn, 'spec/support/assets/csv/data_sucess.csv')
+
       get 'api/v1/tests'
 
       expect(last_response).to be_ok
@@ -75,6 +109,18 @@ describe 'Roda o servidor' do
                         ]
                       }
       expect(last_response.body).to include(expected_json.to_json)
+      drop_tables(@conn)
     end
   end
+
+  context 'POST api/v1/import_csv' do
+    it 'e importar dados com sucesso' do
+      csv_file_path = 'spec/support/assets/csv/data_sucess.csv'
+      post 'api/v1/import_csv', file: Rack::Test::UploadedFile.new(csv_file_path, 'text/csv')
+
+      expect(find_all(@conn).count).to eq(3900)
+      drop_tables(@conn)
+    end
+  end
+
 end

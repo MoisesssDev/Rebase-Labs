@@ -34,7 +34,7 @@ end
 post '/api/v1/import_csv' do
   begin
     csv_file = params[:file][:tempfile]
-    ImportCsvJob.perform(csv_file)
+    ImportCsvJob.perform_async(csv_file)
 
     status 202
     content_type :json
@@ -63,5 +63,6 @@ get '/:token' do
 end
 
 if ENV['APP_ENV'] != 'test'
+  create_tables(PG.connect(dbname: 'rebase-db', user: 'rebase', 'password': 'rebase', host: 'rebase-postgres'))
   Rack::Handler::Puma.run(Sinatra::Application, Port: 3000, Host: '0.0.0.0')
 end

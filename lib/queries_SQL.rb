@@ -54,6 +54,12 @@ def create_tables(conn)
             );')
 end
 
+def drop_tables(conn)
+  conn.exec('DROP TABLE IF EXISTS tests;')
+  conn.exec('DROP TABLE IF EXISTS doctors;')
+  conn.exec('DROP TABLE IF EXISTS patients;')
+end
+
 def insert_patient(conn, row)
   conn.exec_params("INSERT INTO patients VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING", row[0..6])
   row[0]

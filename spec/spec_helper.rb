@@ -3,7 +3,7 @@ ENV['APP_ENV'] = 'test'
 require 'rspec'
 require 'rack/test'
 require_relative '../server'
-require_relative '../lib/import_from_csv.rb'
+require_relative '../lib/import_from_csv'
 
 def app
   Sinatra::Application
