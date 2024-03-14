@@ -1,43 +1,36 @@
 #!/bin/bash
 
-docker network rm rebase-network
+docker network create rebase-labs
 
-docker network create rebase-network
-
-docker run -d --rm --name redis --network rebase-network redis
-
-docker run \
-    -d \
-    --rm \
-    --name rebase-postgres \
-    --network rebase-network \
-    -e POSTGRES_DB=rebase-db \
-    -e POSTGRES_USER=rebase \
-    -e POSTGRES_PASSWORD=rebase \
-    postgres
-
-docker run \
-  -d \
+docker compose run \
   --rm \
-  --name rebase-sidekiq \
-  --network rebase-network \
-  -w /app \
-  -v .:/app \
-  -e REDIS_URL=redis://redis:6379/0 \
-  ruby:3.2.2 \
+  -d \
+  --name redis \
+  redis
+
+docker compose run \
+  --rm \
+  -d \
+  --name redis-worker \
+  app \
   bash -c "bundle install && sidekiq -r ./jobs/import_csv_job.rb"
 
-docker run \
+docker compose run \
   --rm \
-  --name rebase-challenge \
-  --network rebase-network \
-  -w /app \
-  -v .:/app \
-  -p 3000:3000 \
-  -e REDIS_URL=redis://redis:6379/0 \
-  ruby:3.2.2 \
+  -d \
+  --name pgserver \
+  pgserver
+
+docker compose run \
+  --rm \
+  --name rebase-labs \
+  --service-ports \
+  app \
   bash -c "bundle install && ruby server.rb"
 
+docker compose run --rm app ruby lib/clean_up.rb
+
+
+docker stop pgserver
+docker stop redis-worker
 docker stop redis
-docker stop rebase-postgres
-docker stop rebase-sidekiq

@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  app:
+    image: ruby
+    working_dir: /app
+    volumes:
+      - .:/app
+      - rubygems:/usr/local/bundle
+      - gemconfig:/config/.local/share/gem
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+    ports:
+      - "3000:3000"
+  redis:
+    image: redis
+  pgserver:
+    image: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=rebaselabs
+volumes:
+  rubygems:
+  gemconfig:
