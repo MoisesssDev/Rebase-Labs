@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Roda o servidor' do
 
   before(:all) do
-    @conn = PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres')
+    @conn = PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver')
     create_tables(@conn)
   end
 
@@ -115,11 +115,12 @@ describe 'Roda o servidor' do
 
   context 'POST api/v1/import_csv' do
     it 'e importar dados com sucesso' do
-      csv_file_path = 'spec/support/assets/csv/data_sucess.csv'
-      post 'api/v1/import_csv', file: Rack::Test::UploadedFile.new(csv_file_path, 'text/csv')
+      job_spy = spy('ImportDataJob')
+      stub_const('ImportCsvJob', job_spy)
 
-      expect(find_all(@conn).count).to eq(3900)
-      drop_tables(@conn)
+      post 'api/v1/import_csv', file: Rack::Test::UploadedFile.new('spec/support/assets/csv/data_sucess.csv', 'text/csv')
+
+      expect(job_spy).to have_received(:perform_async).once
     end
   end
 

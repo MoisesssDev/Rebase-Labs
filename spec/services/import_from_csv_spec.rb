@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Importa dados do CSV' do
 
   it 'para a tabela de tests com sucesso' do
-    conn = PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres')
+    conn = PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver')
     import_data(conn, 'spec/support/assets/csv/data_sucess.csv')
 
     result = conn.exec('SELECT * FROM tests')
@@ -21,7 +21,7 @@ describe 'Importa dados do CSV' do
   end
 
   it 'para a tabela de doctors com sucesso' do
-    conn = PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres')
+    conn = PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver')
     import_data(conn, 'spec/support/assets/csv/data_sucess.csv')
 
     result = conn.exec('SELECT * FROM doctors')
@@ -36,7 +36,7 @@ describe 'Importa dados do CSV' do
   end
 
   it 'para a tabela de patients com sucesso' do
-    conn = PG.connect(dbname: 'rebase-db', user: 'rebase', password: 'rebase', host: 'rebase-postgres')
+    conn = PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver')
     import_data(conn, 'spec/support/assets/csv/data_sucess.csv')
 
     result = conn.exec('SELECT * FROM patients')
