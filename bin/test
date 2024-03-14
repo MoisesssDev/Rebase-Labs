@@ -1,8 +1,12 @@
 #!/bin/bash
 
+#!/bin/bash
+
 docker network rm rebase-network
 
 docker network create rebase-network
+
+docker run -d --rm --name redis --network rebase-network redis
 
 docker run \
     -d \
@@ -15,12 +19,28 @@ docker run \
     postgres
 
 docker run \
+  -d \
+  --rm \
+  --name rebase-sidekiq \
+  --network rebase-network \
+  -w /app \
+  -v .:/app \
+  -e REDIS_URL=redis://redis:6379/0 \
+  ruby:3.2.2 \
+  bash -c "bundle install && sidekiq -r ./jobs/import_csv_job.rb"
+
+docker run \
   --rm \
   --name rebase-challenge \
   --network rebase-network \
   -w /app \
   -v .:/app \
+  -p 3000:3000 \
+  -e REDIS_URL=redis://redis:6379/0 \
   ruby:3.2.2 \
   bash -c "bundle install && bundle exec rspec"
 
+docker stop redis
 docker stop rebase-postgres
+docker stop rebase-sidekiq
+

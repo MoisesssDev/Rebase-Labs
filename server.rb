@@ -34,7 +34,7 @@ end
 post '/api/v1/import_csv' do
   begin
     csv_file = params[:file][:tempfile]
-    ImportCsvJob.perform_async(csv_file)
+    ImportCsvJob.perform(csv_file)
 
     status 202
     content_type :json
