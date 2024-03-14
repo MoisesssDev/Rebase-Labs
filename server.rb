@@ -69,4 +69,3 @@ if ENV['APP_ENV'] != 'test'
   create_tables(PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver'))
   Rack::Handler::Puma.run(Sinatra::Application, Port: 3000, Host: '0.0.0.0')
 end
-

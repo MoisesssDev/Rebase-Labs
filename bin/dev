@@ -1,7 +1,5 @@
 #!/bin/bash
 
-docker network create rebase-labs
-
 docker compose run \
   --rm \
   -d \
@@ -11,14 +9,14 @@ docker compose run \
 docker compose run \
   --rm \
   -d \
-  --name redis-worker \
+  --name sidekiq \
   app \
   bash -c "bundle install && sidekiq -r ./jobs/import_csv_job.rb"
 
 docker compose run \
   --rm \
   -d \
-  --name pgserver \
+  --name rebase-postgres \
   pgserver
 
 docker compose run \
@@ -31,6 +29,6 @@ docker compose run \
 docker compose run --rm app ruby lib/clean_up.rb
 
 
-docker stop pgserver
-docker stop redis-worker
+docker stop rebase-postgres
+docker stop sidekiq
 docker stop redis

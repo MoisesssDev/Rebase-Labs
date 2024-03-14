@@ -10,3 +10,4 @@ class ImportCsvJob
     conn.close
   end
 end
+
