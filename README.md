@@ -43,3 +43,7 @@ Para rodar os testes execute o seguinte comando:
 ```bash
     bin/test
 ```
+
+### Links utéis
+- [Design do projeto no Figma](https://www.figma.com/file/VmKxKdRMtOzGqNpMa8VWkK/Rebase-Labs?type=design&node-id=0%3A1&mode=design&t=dQCGoxXQvAQTvJ8F-1)
+- [Diagrama do banco de dados](https://dbdiagram.io/d/Rebase-Labs-65f3b06cb1f3d4062cfb8aaf)
