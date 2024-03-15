@@ -66,7 +66,6 @@ function renderTable(data) {
 }
   
 function filterTable(filterText) {
-  // Função para filtrar os resultados da tabela com base no texto fornecido
   var tabelaExames = document.querySelector('table');
   var linhas = tabelaExames.querySelectorAll('tbody tr');
 
@@ -76,13 +75,6 @@ function filterTable(filterText) {
     linha.style.display = textoLinha.includes(filtroLowerCase) ? '' : 'none';
   });
 }
-  
-document.addEventListener('DOMContentLoaded', function () {
-  fetchData(function (data) {
-    console.log(data);
-    renderTable(data);
-  });
-});
 
 function submitForm() {
   const formData = new FormData(document.getElementById('csv-form'));
@@ -109,3 +101,9 @@ function showMessage(message) {
   messageContainer.innerHTML = `<p>${message}</p>`;
 }
   
+document.addEventListener('DOMContentLoaded', function () {
+  fetchData(function (data) {
+    console.log(data);
+    renderTable(data);
+  });
+});

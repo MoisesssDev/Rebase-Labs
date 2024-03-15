@@ -3,6 +3,12 @@ require 'benchmark'
 require 'pg'
 require_relative 'queries_SQL'
 
+def save_temp_file(tempfile)
+  file_path = "#{DATA_DIR}/#{SecureRandom.hex}.csv"
+  File.open(file_path, 'wb') { |file| file.write(tempfile.read) }
+  file_path
+end
+
 def read_csv(csv_file)
   CSV.read(csv_file, col_sep: ';', headers: true)
 end

@@ -1,3 +1,7 @@
+def connect_to_database
+  PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver')
+end
+
 def find_all(conn)
   conn.exec('
     SELECT

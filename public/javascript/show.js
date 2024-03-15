@@ -18,7 +18,6 @@ function fetchData(callback) {
 }
 
 function generateTableBody(data) {
-  // Função para gerar o corpo da tabela com base nos dados fornecidos
   return data[0]['tests'].map(item => `
     <tr>
       <td>${item.type}</td>
@@ -84,7 +83,6 @@ function generateDetailsTest(data) {
 }
 
 function renderTest(data) {
-  // Função para renderizar a tabela no DOM
   var title = `<h2><img src="images/note.png" alt="exames"> Detalhes do exame:</h2>`;
   var link_back = `<a href="/"><img src="images/left.png">Voltar</a>`;
   var navTest = `<div class="nav-test">${link_back}<div class="nav-test-content">${title}</div></div>`;
