@@ -9,15 +9,15 @@ docker compose run \
 docker compose run \
   --rm \
   -d \
-  --name sidekiq \
-  app \
-  bash -c "bundle install && sidekiq -r ./jobs/import_csv_job.rb"
+  --name rebase-test \
+  pgtest
 
 docker compose run \
   --rm \
   -d \
-  --name rebase-postgres \
-  pgserver
+  --name sidekiq \
+  app \
+  bash -c "bundle install && sidekiq -r ./jobs/import_csv_job.rb"
 
 docker compose run \
   --rm \
@@ -29,6 +29,6 @@ docker compose run \
 docker compose run --rm app ruby lib/clean_up.rb
 
 
-docker stop rebase-postgres
+docker stop rebase-test
 docker stop sidekiq
 docker stop redis

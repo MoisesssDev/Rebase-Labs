@@ -22,6 +22,12 @@ services:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=docker
       - POSTGRES_DB=rebaselabs
+  pgtest:
+    image: postgres
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=rebasetest
 volumes:
   rubygems:
   gemconfig:

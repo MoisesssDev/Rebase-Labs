@@ -3,7 +3,7 @@ require 'pg'
 
 describe 'Criação da tabela' do
   before(:all) do
-    @conn = PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver')
+    @conn = PG.connect(dbname: 'rebasetest', user: 'docker', password: 'docker', host: 'pgtest')
     create_tables(@conn)
   end
 

@@ -1,5 +1,13 @@
 def connect_to_database
-  PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver')
+  config_database = nil
+
+  if ENV['APP_ENV'] == 'test'
+    config_database = { dbname: 'rebasetest', user: 'docker', password: 'docker', host: 'pgtest' }
+  else
+    config_database = { dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver' }
+  end
+
+  PG.connect(config_database)
 end
 
 def find_all(conn)

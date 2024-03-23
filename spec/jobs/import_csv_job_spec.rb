@@ -10,7 +10,7 @@ describe '#perform' do
     ImportCsvJob.new.perform(file_path)
     
     
-    conn = PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver')
+    conn = PG.connect(dbname: 'rebasetest', user: 'docker', password: 'docker', host: 'pgtest')
     result = find_by_token(conn, 'IQCZ17')
     conn.close
     
