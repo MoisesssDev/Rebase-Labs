@@ -8,8 +8,6 @@ def delete_database(config_database)
   conn.close
 end
 
-puts ENV['APP_ENV']
-
 CONFIG_DATABASE = [
                     { dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver' }, 
                     { dbname: 'rebasetest', user: 'docker', password: 'docker', host: 'pgtest' }

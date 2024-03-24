@@ -13,7 +13,7 @@ describe 'Roda o servidor' do
 
   context 'GET api/v1/tests/:token' do
     it 'e o token não existe' do
-      import_data(@conn, 'spec/support/assets/csv/data_sucess.csv')
+      CsvFile.import_data(@conn, 'spec/support/assets/csv/data_sucess.csv')
 
       get 'api/v1/tests/123'
 
@@ -25,7 +25,7 @@ describe 'Roda o servidor' do
 
 
     it 'e ver apenas um resultado com sucesso' do
-      import_data(@conn, 'spec/support/assets/csv/data_sucess.csv')
+      CsvFile.import_data(@conn, 'spec/support/assets/csv/data_sucess.csv')
 
       get 'api/v1/tests/IQCZ17'
 
@@ -74,7 +74,7 @@ describe 'Roda o servidor' do
     end
 
     it 'e ver todos os resultados com sucesso' do
-      import_data(@conn, 'spec/support/assets/csv/data_sucess.csv')
+      CsvFile.import_data(@conn, 'spec/support/assets/csv/data_sucess.csv')
 
       get 'api/v1/tests'
 

@@ -6,7 +6,7 @@ require 'securerandom'
 require_relative 'lib/format_response'
 require_relative 'lib/queries_SQL'
 require_relative 'jobs/import_csv_job'
-require_relative 'lib/import_from_csv'
+require_relative 'lib/csv_file'
 
 DATA_DIR = 'data'.freeze
 Dir.mkdir(DATA_DIR) unless File.directory?(DATA_DIR)
@@ -40,7 +40,7 @@ post '/api/v1/import_csv' do
   if params[:file] && (tempfile = params[:file][:tempfile])
     
     begin
-      file_path = save_temp_file(tempfile)
+      file_path = CsvFile.save_temp_file(tempfile)
       ImportCsvJob.perform_async(file_path)
       status 202 
       { status: 'success', message: 'O arquivo CSV está sendo processado. Por favor, aguarde.' }.to_json

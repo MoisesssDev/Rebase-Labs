@@ -4,7 +4,7 @@ describe 'Importa dados do CSV' do
 
   it 'para a tabela de tests com sucesso' do
     conn = PG.connect(dbname: 'rebasetest', user: 'docker', password: 'docker', host: 'pgtest')
-    import_data(conn, 'spec/support/assets/csv/data_sucess.csv')
+    CsvFile.import_data(conn, 'spec/support/assets/csv/data_sucess.csv')
 
     result = conn.exec('SELECT * FROM tests')
     expect(result.count).to eq(3900)
@@ -22,7 +22,7 @@ describe 'Importa dados do CSV' do
 
   it 'para a tabela de doctors com sucesso' do
     conn = PG.connect(dbname: 'rebasetest', user: 'docker', password: 'docker', host: 'pgtest')
-    import_data(conn, 'spec/support/assets/csv/data_sucess.csv')
+    CsvFile.import_data(conn, 'spec/support/assets/csv/data_sucess.csv')
 
     result = conn.exec('SELECT * FROM doctors')
     expect(result.count).to eq(9)
@@ -37,7 +37,7 @@ describe 'Importa dados do CSV' do
 
   it 'para a tabela de patients com sucesso' do
     conn = PG.connect(dbname: 'rebasetest', user: 'docker', password: 'docker', host: 'pgtest')
-    import_data(conn, 'spec/support/assets/csv/data_sucess.csv')
+    CsvFile.import_data(conn, 'spec/support/assets/csv/data_sucess.csv')
 
     result = conn.exec('SELECT * FROM patients')
     expect(result.count).to eq(50)
