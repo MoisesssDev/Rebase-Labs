@@ -11,7 +11,7 @@ describe '#perform' do
     
     
     conn = PG.connect(dbname: 'rebasetest', user: 'docker', password: 'docker', host: 'pgtest')
-    result = find_by_token(conn, 'IQCZ17')
+    result = Test.find_by_token(conn, 'IQCZ17')
     conn.close
     
     expect(result[0]['result_token']).to eq('IQCZ17')

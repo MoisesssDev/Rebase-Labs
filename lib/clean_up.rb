@@ -1,10 +1,10 @@
-require_relative 'queries_SQL'
+require_relative 'schema'
 require 'pg'
 require 'fileutils'
 
 def delete_database(config_database)
   conn = PG.connect(config_database)
-  drop_tables(conn)
+  Schema.drop_tables(conn)
   conn.close
 end
 

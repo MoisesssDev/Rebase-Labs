@@ -4,7 +4,7 @@ describe 'Roda o servidor' do
 
   before(:all) do
     @conn = PG.connect(dbname: 'rebasetest', user: 'docker', password: 'docker', host: 'pgtest')
-    create_tables(@conn)
+    Schema.create_tables(@conn)
   end
 
   after(:all) do
@@ -20,7 +20,7 @@ describe 'Roda o servidor' do
       expect(last_response).to be_ok
       expect(last_response.content_type).to eq('application/json')
       expect(last_response.body).to eq('[]')
-      drop_tables(@conn)
+      Schema.drop_tables(@conn)
     end
 
 
@@ -60,7 +60,7 @@ describe 'Roda o servidor' do
                         ]
                       }]
       expect(last_response.body).to eq(expected_json.to_json)
-      drop_tables(@conn)
+      Schema.drop_tables(@conn)
     end
   end
 
@@ -109,7 +109,7 @@ describe 'Roda o servidor' do
                         ]
                       }
       expect(last_response.body).to include(expected_json.to_json)
-      drop_tables(@conn)
+      Schema.drop_tables(@conn)
     end
   end
 

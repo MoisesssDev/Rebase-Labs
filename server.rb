@@ -3,8 +3,8 @@ require 'rack/handler/puma'
 require 'csv'
 require 'pg'
 require 'securerandom'
-require_relative 'lib/format_response'
-require_relative 'lib/queries_SQL'
+require_relative 'lib/test'
+require_relative 'lib/schema'
 require_relative 'jobs/import_csv_job'
 require_relative 'lib/csv_file'
 
@@ -12,13 +12,13 @@ DATA_DIR = 'data'.freeze
 Dir.mkdir(DATA_DIR) unless File.directory?(DATA_DIR)
 
 get '/api/v1/tests' do
-  conn = connect_to_database
+  conn = Schema.connect_to_database
 
   begin 
-    result = find_all(conn)
+    result = Test.find_all(conn)
     content_type :json
     response.headers['Access-Control-Allow-Origin'] = '*'
-    format_response(result).to_json
+    Test.format_response(result).to_json
   rescue PG::Error => e
     content_type :json
     [].to_json
@@ -28,12 +28,12 @@ get '/api/v1/tests' do
 end
 
 get '/api/v1/tests/:token' do
-  conn = connect_to_database
-  result = find_by_token(conn, params[:token])
+  conn = Schema.connect_to_database
+  result = Test.find_by_token(conn, params[:token])
 
   content_type :json
   response.headers['Access-Control-Allow-Origin'] = '*'
-  format_response(result).to_json
+  Test.format_response(result).to_json
 end
 
 post '/api/v1/import_csv' do
@@ -67,6 +67,6 @@ get '/:token' do
 end
 
 if ENV['APP_ENV'] != 'test'
-  create_tables(PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver'))
+  Schema.create_tables(PG.connect(dbname: 'rebaselabs', user: 'docker', password: 'docker', host: 'pgserver'))
   Rack::Handler::Puma.run(Sinatra::Application, Port: 3000, Host: '0.0.0.0')
 end

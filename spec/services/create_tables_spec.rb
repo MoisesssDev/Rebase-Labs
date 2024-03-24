@@ -4,7 +4,7 @@ require 'pg'
 describe 'Criação da tabela' do
   before(:all) do
     @conn = PG.connect(dbname: 'rebasetest', user: 'docker', password: 'docker', host: 'pgtest')
-    create_tables(@conn)
+    Schema.create_tables(@conn)
   end
 
   it 'de médicos com sucesso' do
@@ -27,7 +27,7 @@ describe 'Criação da tabela' do
   end
 
   after(:all) do
-    drop_tables(@conn)
+    Schema.drop_tables(@conn)
     @conn.close
   end
 end

@@ -16,7 +16,7 @@ describe 'Importa dados do CSV' do
     expect(result[0]['exam_type_limits']).to eq('45-52')
     expect(result[0]['exam_type_result']).to eq('97')
 
-    drop_tables(conn)
+    Schema.drop_tables(conn)
     conn.close
   end
 
@@ -31,7 +31,7 @@ describe 'Importa dados do CSV' do
     expect(result[0]['name']).to eq('Maria Luiza Pires')
     expect(result[0]['email']).to eq('denna@wisozk.biz')
 
-    drop_tables(conn)
+    Schema.drop_tables(conn)
     conn.close
   end
 
@@ -49,7 +49,7 @@ describe 'Importa dados do CSV' do
     expect(result[0]['city']).to eq('Ituverava')
     expect(result[0]['state']).to eq('Alagoas')
 
-    drop_tables(conn)
+    Schema.drop_tables(conn)
     conn.close
   end
 
